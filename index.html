@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário, Pai!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #4a90e2, #7e57c2);
+            transition: background 0.3s;
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 1rem;
+        }
+        .photo-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .nav-button.left { left: 10px; }
+        .nav-button.right { right: 10px; }
+        .button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #3a7bd5;
+        }
+        .message {
+            background-color: #fff9c4;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        .countdown {
+            background-color: #e3f2fd;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .dark-mode {
+            background: linear-gradient(to bottom, #2c3e50, #34495e);
+        }
+        .dark-mode .card {
+            background-color: #34495e;
+            color: white;
+        }
+        .dark-mode h1 {
+            color: #3498db;
+        }
+        .dark-mode .message {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .dark-mode .countdown {
+            background-color: #2c3e50;
+            color: white;
+        }
+        #darkModeToggle {
+            background-color: #34495e;
+            color: white;
+        }
+        .dark-mode #darkModeToggle {
+            background-color: #f1c40f;
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Feliz Aniversário, Pai!</h1>
+        <div class="photo-container">
+            <img src="https://media.discordapp.net/attachments/1105593437996204084/1295810075734048798/Screenshot_20241015_150242_Instagram.jpg?ex=671000ad&is=670eaf2d&hm=e031bc49933172bd2b885ef4342514b297efdef39c98f441c8ff04cf8c754557&=&format=webp&width=472&height=468" alt="Foto do Pai" class="photo" id="photo">
+            <button class="nav-button left" onclick="changePhoto(-1)">&lt;</button>
+            <button class="nav-button right" onclick="changePhoto(1)">&gt;</button>
+        </div>
+        <p>Hoje é um dia especial! Obrigada por tudo que faz por nós.</p>
+        <button class="button" onclick="showConfetti()">Confetes!</button>
+        <button class="button" onclick="showBalloons()">Balões!</button>
+        <div class="message" id="message">
+            <p>Hoje é o seu dia, e eu só queria dizer o quanto sou grata por tudo que o senhor fez por mim. O senhor tem me apoiado diariamente, e isso significa o mundo para mim! Espero que nesse novo ano o senhor realize muitos objetivos e planos, com saúde e momentos agradáveis. Que tenha uma vida longa e cheia de momentos incríveis, porque quero que esteja comigo em cada um deles! Aproveite muito o seu dia! O senhor merece tudo de melhor!
+              
+              Eu te amo, infinitamente!</p>
+        </div>
+        <div class="countdown" id="countdown"></div>
+        <button class="button" id="darkModeToggle" onclick="toggleDarkMode()">Modo Escuro</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const photos = [
+            "https://media.discordapp.net/attachments/1105593437996204084/1295810075356827738/Screenshot_20241015_150347_Instagram.jpg?ex=671000ac&is=670eaf2c&hm=e6b47fe582249a7c77a473b68ac6b4cb93b05376d9bbbcc3631d23ee5c985cb9&=&format=webp&width=527&height=468",
+            "https://media.discordapp.net/attachments/1105593437996204084/1295810075092455485/Screenshot_20241015_150404_Instagram.jpg?ex=671000ac&is=670eaf2c&hm=8637e050ec377706de4389c124dc76fc13aecc2f51e32f68e980b58946537e28&=&format=webp&width=475&height=468",
+            "https://media.discordapp.net/attachments/1105593437996204084/1295810824086224980/Screenshot_20241015_150901_Instagram.jpg?ex=6710015f&is=670eafdf&hm=515016aa04d8bedef37bab30c8fa7b718a9b96a806054ac164480acd1c6637ce&=&format=webp&width=500&height=467"
+        ];
+        let currentPhoto = 0;
+
+        function changePhoto(direction) {
+            currentPhoto = (currentPhoto + direction + photos.length) % photos.length;
+            document.getElementById('photo').src = photos[currentPhoto];
+        }
+
+        function showConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            document.getElementById('message').style.display = 'block';
+        }
+
+        function showBalloons() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            for (let i = 0; i < 30; i++) {
+                confetti({
+                    shapes: ['circle'],
+                    particleCount: 1,
+                    scalar: 2,
+                    colors: [colors[Math.floor(Math.random() * colors.length)]],
+                    ticks: 500,
+                    origin: { x: Math.random(), y: Math.random() - 0.2 }
+                });
+            }
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const nextBirthday = new Date(now.getFullYear(), 9, 16); // 16 de outubro
+            if (now > nextBirthday) {
+                nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+            }
+            const diff = nextBirthday - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('countdown').innerText = `Contagem regressiva para o próximo aniversário: ${days} dias e ${hours} horas`;
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const button = document.getElementById('darkModeToggle');
+            button.innerText = document.body.classList.contains('dark-mode') ? 'Modo Claro' : 'Modo Escuro';
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000 * 60 * 60); // Atualiza a cada hora
+    </script>
+</body>
+</html>
